@@ -20,7 +20,7 @@
                             <?php if (isset($_POST['submit'])) {
                                 $cat_title = $_POST['cat_title'];
                                 if ($cat_title == "" || empty($cat_title)) {
-                                    echo "This field should not be empty!";
+                                    echo "<div class='row'><div class='alert alert-danger col-xs-6' role='alert'> This field should not be empty!</div></div>";
                                 } else {
                                     $query = "INSERT INTO categories(cat_title) ";
                                     $query .= "VALUE('{$cat_title}') ";
@@ -40,14 +40,18 @@
                                 <div class="form-group">
                                     <input class="btn btn-primary" type="submit" name="submit" value="Add Category">
                                 </div>
-                            </form>
-                        </div><!-- Add category form -->
-                        <div class="col-xs-6">
+                            </form><!-- Add category form -->
+
                             <?php 
-                    $query = "SELECT * FROM categories";
-                    $select_categories = mysqli_query($connection, $query);
-                    
-                     ?>
+                            if (isset($_GET['edit'])) {
+                                $cat_id = $_GET['edit'];
+                            
+                            include "includes/update_categories.php"; 
+                            }
+                        ?><!-- Edit category form -->
+
+                        </div>
+                        <div class="col-xs-6">
                             <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
@@ -56,16 +60,31 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php while ($row = mysqli_fetch_assoc($select_categories)) {
-                        $cat_id = $row['cat_id'];
-                        $cat_title = $row['cat_title'];
-                        echo "<tr>";
-                        echo "<td>{$cat_id}</td>";
-                        echo "<td>{$cat_title}</td>";
-                        echo "</tr>";
-                    } ?>
+                                    <?php  
+                                    //Find All Categories Query
+                                    $query = "SELECT * FROM categories";
+                                            $select_categories = mysqli_query($connection, $query);
+
+                                            while ($row = mysqli_fetch_assoc($select_categories)) {
+                                            $cat_id = $row['cat_id'];
+                                            $cat_title = $row['cat_title'];
+                                            echo "<tr>";
+                                            echo "<td>{$cat_id}</td>";
+                                            echo "<td>{$cat_title}</td>";
+                                            echo "<td><a href='categories.php?delete={$cat_id}'>Delete</a></td>";
+                                            echo "<td><a href='categories.php?edit={$cat_id}'>Edit</a></td>";
+                                            echo "</tr>";
+                                    } ?>
                                     
-                                        
+                                    <?php 
+                                    //DELETE query
+                                    if (isset($_GET['delete'])) {
+                                        $the_cat_id = $_GET['delete'];
+                                        $query = "DELETE FROM categories WHERE cat_id = {$the_cat_id} ";
+                                        $delete_query = mysqli_query($connection,$query);
+                                        header("Location: categories.php");
+                                    }
+                                     ?>    
                                         
                                 </tbody>
                             </table>
