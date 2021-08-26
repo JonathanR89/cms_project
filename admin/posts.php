@@ -19,7 +19,11 @@
                         <h1 class="page-header">
                             Posts
                         </h1>
-                        
+                        <?php 
+                        if (isset($_GET['source'])) {
+                            $source = $_GET['source'];
+                        }
+                         ?>
                         
                     </div>
                 </div>
