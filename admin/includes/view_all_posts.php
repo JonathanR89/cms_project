@@ -19,7 +19,7 @@
 
         while ($row = mysqli_fetch_assoc($select_posts)) {
         $post_id = $row['post_id'];
-        $post_auther = $row['post_auther'];
+        $post_author = $row['post_author'];
         $post_title = $row['post_title'];
         $post_category_id = $row['post_category_id'];
         $post_status = $row['post_status'];
@@ -30,7 +30,7 @@
 
         echo "<tr>";
         echo "<td>{$post_id}</td>";
-        echo "<td>{$post_auther}</td>";
+        echo "<td>{$post_author}</td>";
         echo "<td>{$post_title}</td>";
         echo "<td>{$post_category_id}</td>";
         echo "<td>{$post_status}</td>";
