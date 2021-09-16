@@ -2,7 +2,7 @@
 if (isset($_POST['create_post'])) {
 	$post_title = $_POST['title'];
 	$post_author = $_POST['author'];
-	$post_category_id = $_POST['post_category_id'];
+	$post_category_id = $_POST['post_category'];
 	$post_status = $_POST['post_status'];
 
 	$post_image = $_FILES['image']['name'];
@@ -20,9 +20,7 @@ if (isset($_POST['create_post'])) {
 
 	$create_post_query = mysqli_query($connection, $query);
 
-	if (!$create_post_query) {
-		die("Query failed" . mysqli_error($connection));
-	}
+	confirmQuery($create_post_query);
 }
  ?>
 
@@ -33,7 +31,24 @@ if (isset($_POST['create_post'])) {
 	</div>
 	<div class="form-group">
 		<label for="post_category_id">Post Category ID</label>
-		<input type="text" class="form-control" name="post_category_id">
+		<select name="post_category" id="post_category">
+			<?php 
+			$query = "SELECT * FROM categories";
+            $select_categories = mysqli_query($connection,$query);
+
+            confirmQuery($select_categories);
+
+            while ($row = mysqli_fetch_assoc($select_categories)) {
+            $cat_id = $row['cat_id'];
+            $cat_title = $row['cat_title'];
+            echo "<option value='{$cat_id}'>{$cat_title}</option>";
+        }
+        
+            ?>
+
+            <!-- <input value="<?php if(isset($cat_title)){echo $cat_title;} ?>" class="form-control" type="text" name="cat_title"> -->
+			 
+		</select>
 	</div>
 	<div class="form-group">
 		<label for="author">Post Author</label>
@@ -52,8 +67,7 @@ if (isset($_POST['create_post'])) {
 		<input type="text" class="form-control" name="post_tags">
 	</div>
 	<div class="form-group">
-		<label for="post_content">Post Content</label>
-		<textarea class="form-control" name="post_content" id="" cols="100" rows="10">
+		<label for="post_content">Post Content</label><textarea class="form-control" name="post_content" id="" cols="100" rows="10">
 			
 		</textarea>
 	</div>
