@@ -13,8 +13,12 @@
             <div class="col-md-8">
 
                 <?php 
-                $query = "SELECT * FROM posts";
-                $select_all_posts_query = mysqli_query($connection, $query);
+                if (isset($_GET['category'])) {
+                    $post_category_id = $_GET['category'];
+                }
+
+                $query = "SELECT * FROM posts WHERE post_category_id = $post_category_id";
+                $select_all_posts_query= mysqli_query($connection, $query);
                     while ($row = mysqli_fetch_assoc($select_all_posts_query)) {
                         $post_id = $row['post_id'];
                         $post_title = $row['post_title'];
@@ -32,7 +36,7 @@
 
                 <!-- First Blog Post -->
                 <h2>
-                    <a href="post.php?p_id=<?php echo $post_id ?>"><?php echo $post_title ?></a>
+                    <a href="category.php?p_id=<?php echo $cat_id ?>"><?php echo $post_title ?></a>
                 </h2>
                 <p class="lead">
                     by <a href="index.php"><?php echo $post_author ?></a>
