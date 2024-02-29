@@ -114,7 +114,7 @@
                      <!-- PHP Comment -->
                 <div class="media">
                     <a class="pull-left" href="#">
-                        <img class="media-object" src="https://via.placeholder.com/64" alt="">
+                        <img class="media-object" src="https://placehold.co/64" alt="">
                     </a>
                     <div class="media-body">
                         <h4 class="media-heading"><?php echo $comment_author ?>
